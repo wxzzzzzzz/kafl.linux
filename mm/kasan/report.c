@@ -33,6 +33,8 @@
 
 #include <asm/sections.h>
 
+#include <asm/nyx_api.h>
+
 #include "kasan.h"
 #include "../slab.h"
 
@@ -634,6 +636,7 @@ bool kasan_report(const void *addr, size_t size, bool is_write,
 	print_report(&info);
 
 	end_report(&irq_flags, (void *)addr, is_write);
+	kAFL_hypercall(HYPERCALL_KAFL_KASAN, 0);
 
 out:
 	user_access_restore(ua_flags);
