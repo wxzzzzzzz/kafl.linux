@@ -10126,7 +10126,10 @@ int kvm_emulate_hypercall(struct kvm_vcpu *vcpu)
 			case (KVM_EXIT_KAFL_SUBMIT_CR3-KAFL_EXIT_OFFSET):
 			case (KVM_EXIT_KAFL_USER_FAST_ACQUIRE-KAFL_EXIT_OFFSET): 
 				vcpu->run->exit_reason = a0+KAFL_EXIT_OFFSET;    
-				vcpu->run->hypercall.args[0] = kvm_read_cr3(vcpu);
+				if (a1) 
+					vcpu->run->hypercall.args[0] = a1;
+				else
+					vcpu->run->hypercall.args[0] = kvm_read_cr3(vcpu);
 				break;
 			case (KVM_EXIT_KAFL_PRINTK_ADDR-KAFL_EXIT_OFFSET): // still in use?  
 				vcpu->run->exit_reason = a0+KAFL_EXIT_OFFSET;    
