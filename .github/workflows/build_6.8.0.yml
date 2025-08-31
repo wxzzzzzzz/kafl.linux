@@ -7,7 +7,7 @@ on:
       branch:
         description: 'branch name to build'
         required: true
-        default: 'kvm-nyx-6.8.0'
+        default: 'kvm-nyx-6.8'
       publish:
         description: 'publish a Github release'
         required: true
