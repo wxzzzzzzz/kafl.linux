@@ -73,6 +73,10 @@ jobs:
           ./scripts/config --disable KVM_HYPERV
           # tweak locaversion
           ./scripts/config --set-str CONFIG_LOCALVERSION -nyx
+          # save space
+          ./scripts/config --disable DEBUG_INFO
+          ./scripts/config --enable MODULE_COMPRESS
+          ./scripts/config --enable MODULE_COMPRESS_ZSTD
         working-directory: sources
 
       - name: Configure SDV kernel
