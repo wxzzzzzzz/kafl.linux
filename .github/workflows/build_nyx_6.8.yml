@@ -65,8 +65,12 @@ jobs:
           ./scripts/config --enable DEBUG_INFO_COMPRESSED
           # enable KVM
           ./scripts/config --module CONFIG_KVM
+          # disable KVM_WERROR (otherwise compilation issues in modified KVM)
+          ./scripts/config --disable KVM_WERROR
           # enable Nyx
           ./scripts/config --enable CONFIG_KVM_NYX
+          # disable KVM_HYPERV due to compilation issue
+          ./scripts/config --disable KVM_HYPERV
           # tweak locaversion
           ./scripts/config --set-str CONFIG_LOCALVERSION -nyx
         working-directory: sources
