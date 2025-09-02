@@ -16,7 +16,7 @@ on:
 jobs:
   debian_package:
     permissions:
-      contents: write
+      contents: true
     runs-on: ubuntu-24.04
     container:
       image: ubuntu:22.04
@@ -73,6 +73,10 @@ jobs:
           ./scripts/config --disable KVM_HYPERV
           # tweak locaversion
           ./scripts/config --set-str CONFIG_LOCALVERSION -nyx
+          # save space
+          ./scripts/config --disable DEBUG_INFO
+          ./scripts/config --enable MODULE_COMPRESS
+          ./scripts/config --enable MODULE_COMPRESS_ZSTD
         working-directory: sources
 
       - name: Configure SDV kernel
@@ -86,18 +90,6 @@ jobs:
       - name: make olddefconfig
         run: make olddefconfig
         working-directory: sources
-        
-      - name: Free up disk space
-        run: |
-          echo "=== Before cleanup ==="
-          df -h
-          sudo rm -rf /usr/share/dotnet
-          sudo rm -rf /usr/local/lib/android
-          sudo rm -rf /opt/ghc
-          sudo rm -rf /opt/hostedtoolcache
-          sudo apt-get clean
-          echo "=== After cleanup ==="
-          df -h
 
       - name: Build kernel
         run: |
